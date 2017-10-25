@@ -1,0 +1,58 @@
+.head_portrait_change_button{
+	width:2rem;
+	height:.7rem;
+	margin:.3rem auto 0;
+}
+.head_portrait_change_button a{
+	display:block;
+	width:2rem;
+	height:.7rem;
+	text-align:center;
+	font-size:13px;
+	background-color:#fff;
+	line-height:.7rem;
+	color:#00ABF3;
+	border-radius:.05rem;
+	text-decoration: none;
+}
+.user_info{
+	list-style: none;
+	font-size:15px;
+	margin-top:.32rem;
+	padding-left: 0;
+}
+.user_info li{
+	height: 1.12rem;
+	line-height:1.12rem;
+}
+.user_info li:hover{
+	background-color: #DFE0E2;
+}
+.item_name{
+	display: inline-block;
+	margin-left: .4rem;
+	width:2.5rem;
+	margin-right: .4rem;
+	color:#7F848A;
+	line-height:1.12rem;
+}
+.item_value{
+	display: inline-block;
+	color:#29323C;
+	width:5.5rem;
+	height:1.12rem;
+	text-align: left;
+	line-height:1.12rem;
+	vertical-align: top;/*处理inline-block溢出隐藏不换行*/
+	overflow: hidden;/*处理inline-block溢出隐藏不换行*/
+}
+.arrow_right{
+	display:inline-block;
+	border: solid #D9DADA;
+	width:.3rem;
+	height:.3rem;
+	border-width: 0 .07rem .07rem 0;
+	transform:rotate(-45deg);
+	vertical-align: baseline;
+	margin-right: .32rem;
+}

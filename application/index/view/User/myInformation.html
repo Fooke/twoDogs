@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<title>修改用户信息界面</title>
+		<!-- meta使用viewport以确保页面可自由缩放 -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<script>
+			(function(win, lib) {
+				var doc = win.document;
+				var docEl = doc.documentElement;
+				var metaEl = doc.querySelector('meta[name="viewport"]');
+				var flexibleEl = doc.querySelector('meta[name="flexible"]');
+				var dpr = 0;
+				var scale = 0;
+				var tid;
+				var flexible = lib.flexible || (lib.flexible = {});
+
+				if (metaEl) {
+					console.warn('将根据已有的meta标签来设置缩放比例');
+					var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+					if (match) {
+						scale = parseFloat(match[1]);
+						dpr = parseInt(1 / scale);
+					}
+				} else if (flexibleEl) {
+					var content = flexibleEl.getAttribute('content');
+					if (content) {
+						var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+						var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+						if (initialDpr) {
+							dpr = parseFloat(initialDpr[1]);
+							scale = parseFloat((1 / dpr).toFixed(2));
+						}
+						if (maximumDpr) {
+							dpr = parseFloat(maximumDpr[1]);
+							scale = parseFloat((1 / dpr).toFixed(2));
+						}
+					}
+				}
+
+				if (!dpr && !scale) {
+					var isAndroid = win.navigator.appVersion.match(/android/gi);
+					var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+					var devicePixelRatio = win.devicePixelRatio;
+					if (isIPhone) {
+						// iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+						if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+							dpr = 3;
+						} else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+							dpr = 2;
+						} else {
+							dpr = 1;
+						}
+					} else {
+						// 其他设备下，仍旧使用1倍的方案
+						dpr = 1;
+					}
+					scale = 1 / dpr;
+				}
+
+				docEl.setAttribute('data-dpr', dpr);
+				if (!metaEl) {
+					metaEl = doc.createElement('meta');
+					metaEl.setAttribute('name', 'viewport');
+					metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+					if (docEl.firstElementChild) {
+						docEl.firstElementChild.appendChild(metaEl);
+					} else {
+						var wrap = doc.createElement('div');
+						wrap.appendChild(metaEl);
+						doc.write(wrap.innerHTML);
+					}
+				}
+
+				function refreshRem(){
+					var width = docEl.getBoundingClientRect().width;
+					if (width / dpr > 540) {
+						width = 540 * dpr;
+					}
+					var rem = width / 10;
+					docEl.style.fontSize = rem + 'px';
+					flexible.rem = win.rem = rem;
+				}
+
+				win.addEventListener('resize', function() {
+					clearTimeout(tid);
+					tid = setTimeout(refreshRem, 300);
+				}, false);
+				win.addEventListener('pageshow', function(e) {
+					if (e.persisted) {
+						clearTimeout(tid);
+						tid = setTimeout(refreshRem, 300);
+					}
+				}, false);
+
+				if (doc.readyState === 'complete') {
+					doc.body.style.fontSize = 12 * dpr + 'px';
+				} else {
+					doc.addEventListener('DOMContentLoaded', function(e) {
+						doc.body.style.fontSize = 12 * dpr + 'px';
+					}, false);
+				}
+
+				refreshRem();
+
+				flexible.dpr = win.dpr = dpr;
+				flexible.refreshRem = refreshRem;
+				flexible.rem2px = function(d) {
+					var val = parseFloat(d) * this.rem;
+					if (typeof d === 'string' && d.match(/rem$/)) {
+						val += 'px';
+					}
+					return val;
+				}
+				flexible.px2rem = function(d) {
+					var val = parseFloat(d) / this.rem;
+					if (typeof d === 'string' && d.match(/px$/)) {
+						val += 'rem';
+					}
+					return val;
+				}
+
+			})(window, window['lib'] || (window['lib'] = {}));
+		</script>
+		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="_CSS_/bootstrap.min.css" />
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="_JS_/jquery.min.js"></script>
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="_JS_/bootstrap.min.js"></script>
+		<link href="_CSS_/normalize.css" rel="stylesheet" />
+		<link rel="stylesheet" href="_CSS_/commen.css" />
+		<link rel="stylesheet" href="_CSS_/edit_info.css" />
+	</head>
+	<body>
+		<div class="container-fluid" style="padding:0;">
+			<!--资料修改界面-->
+			<!--页面头部：返回、关闭、标题、三个点-->
+			<div class="header">
+				<!--返回按钮-->
+				<div class="return_btn"><i class="arrow_left"></i>返回</div>
+				<!--关闭按钮-->
+				<div class="close_btn">关闭</div>
+				<!--三个点-->
+				<div class="share_btn">
+					<i class="space"></i>
+					<i class="dot"></i>
+					<i class="dot"></i>
+					<i class="dot"></i>
+				</div>
+				<!--标题栏-->
+				<div class="title"><div>资料设置</div></div>
+			</div>
+			<div class="head">
+				<!--用户头像-->
+				<div class="head_portrait">
+					<img src="_IMAGE_/头像.jpg" />
+				</div>
+				<!--更换用户头像按钮-->
+				<div class="head_portrait_change_button">
+					<a href="#">更换头像</a>
+				</div>
+			</div>
+			<!--页面中部：头像、资料查看和设置的栏目-->
+			<div class="content">
+				<!--用户资料-->
+				<ul class="user_info">
+					<!--昵称-->
+					<li class="nickname_item">
+						<span class="item_name">昵称</span>
+						<span class="item_value">{$data['User']->nickName}</span>
+						<span class="arrow_right"></span>
+					</li>
+					<!--地区-->
+					<li class="area_item">
+						<span class="item_name">地区</span>
+						<span class="item_value"></i><?php echo $data['User']->province.' '.$data['User']->city ?></span>
+						<span class="arrow_right"></span>
+					</li>
+					<!--个性签名-->
+					<li class="area_item">
+						<span class="item_name">个性签名</span>
+						<span class="item_value">{$data['User']->brief}</span>
+						<span class="arrow_right"></span>
+					</li>
+					<!--手机-->
+					<li class="phone_item">
+						<span class="item_name">绑定手机号</span>
+						<span class="item_value">{$data['User']->phoneNumber}</span>
+						<span class="arrow_right"></span>
+					</li>
+					<!--实名认证-->
+					<li class="certification_item">
+						<span class="item_name">实名认证</span>
+						<span class="item_value"><?php if($data['User']->papersStatus){echo '已实名认证';} else{echo '未实名认证';}?></span>
+						<span class="arrow_right"></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,96 @@
+/*我的资料*/
+/*顶部*/
+body{font-family:"Source Han Sans CN";}
+.header{
+	width:10rem;
+	height:1rem;
+	color:#F9FCFE;
+	background-color:#00ABF3;
+	position:fixed;
+	top:0;
+	z-index:999;
+	font-size:15px;
+}
+.header div{
+	height:1rem;
+	line-height:1rem;
+}
+.return_btn{
+	float:left;
+	display:inline-block;
+	text-align:center;
+	width:1.5rem;
+	margin-left:.2rem;
+}
+/*返回箭头*/
+.arrow_left{
+	display:inline-block;
+	border: solid #ffffff;
+	width:.35rem;
+	height:.35rem;
+	border-width: .07rem 0 0 .07rem;
+	transform:rotate(-45deg);
+	vertical-align: baseline;
+}
+.close_btn{
+	float:left;
+	display:inline-block;
+	width:1rem;
+	text-align: center;
+	margin-left:.2rem;
+}
+.title{
+	font-size:18px;
+	font-weight: bold;
+}
+.title div{
+	width:10rem;
+	margin:0 auto;
+	height:1rem;
+	line-height: 1rem;
+	text-align: center;
+	overflow: hidden;
+	position:absolute;
+	top:0;
+	left:0;
+}
+.share_btn{
+	width: 1.5rem;
+	float:right;
+}
+.space{
+	float:right;
+	width:.3rem;
+	height:.3rem;
+}
+.dot{
+	float:right;
+	width:.3rem;
+	height:1rem;
+	background-image: url(./img/dot.png);
+	background-size: .2rem;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+}
+
+.head{
+	width:10rem;
+	height:6rem;
+	background-color:#00ABF3;
+	border-radius: 0 0 55% 55% / 0 0 60% 60%;
+}
+.head:before{
+	display:table;
+	content:" ";
+}
+.head_portrait{
+	width:5rem;
+	height:2rem;
+	margin: 1.4rem auto 0;
+	text-align: center;
+}
+.head_portrait img{
+	width:2rem;
+	height:2rem;
+	border-radius:2rem;
+}
